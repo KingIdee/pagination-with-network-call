@@ -1,12 +1,12 @@
 package com.idee.myapplication;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.DiffCallback;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -20,12 +20,14 @@ class ApiResult implements Parcelable {
 
         @Override
         public boolean areItemsTheSame(@NonNull ApiResult oldItem, @NonNull ApiResult newItem) {
-            return false;
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull ApiResult oldItem, @NonNull ApiResult newItem) {
-            return false;
+            // TODO: 13/10/17 Implement equals for ApiResult for better reliability
+            return oldItem.getId().equals(newItem.getId())
+                    && oldItem.getTitle().equals(newItem.getTitle());
         }
     };
 
