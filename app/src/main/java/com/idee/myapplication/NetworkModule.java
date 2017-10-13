@@ -1,6 +1,5 @@
 package com.idee.myapplication;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -25,7 +24,9 @@ class NetworkModule {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         return httpClient.readTimeout(1200, TimeUnit.SECONDS)
-                .connectTimeout(1200, TimeUnit.SECONDS).build();
+                .connectTimeout(1200, TimeUnit.SECONDS)
+                .addInterceptor(new AuthorizationInterceptor())
+                .build();
 
     }
 
