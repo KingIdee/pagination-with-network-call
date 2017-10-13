@@ -56,7 +56,7 @@ public abstract class DataClass extends TiledDataSource<ApiResult> {
                 JSONObject object = jsonArray.getJSONObject(i);
 
                 ApiResult mMovieModel = new ApiResult();
-                //mMovieModel.setId(object.getString("id"));
+                mMovieModel.setId(object.getInt("id"));
                 mMovieModel.setPosterPath(object.getString("poster_path"));
                 mMovieModel.setTitle(object.getString("original_title"));
                 mMovieModel.setBackdropPath(object.getString("backdrop_path"));
