@@ -4,9 +4,21 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+
+if (keystorePropertiesFile.exists()) {
+
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    if (keystoreProperties != null && !keystoreProperties.contains('MovieDBAPIKEY')) {
+        println "keystore.properties found but some entries are missing"
+    }
+
+}
+
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.0"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.idee.myapplication"
         minSdkVersion 14
@@ -20,6 +32,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    buildTypes.each {
+        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', keystoreProperties['MovieDBAPIKEY']
     }
     compileOptions {
         targetCompatibility 1.8

@@ -1,6 +1,5 @@
 package com.idee.myapplication;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -9,6 +8,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by idee on 9/15/17.
@@ -17,15 +17,17 @@ import retrofit2.http.GET;
 class NetworkModule {
 
     public interface WebService {
-        @GET("/3/movie/popular?api_key=API_KEY")
-        Call<String> makeRequest();
+        @GET("/3/movie/popular?")
+        Call<String> makeRequest(@Query("page") String pageNumber);
     }
 
     private static OkHttpClient providesOkHttpClientBuilder(){
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         return httpClient.readTimeout(1200, TimeUnit.SECONDS)
-                .connectTimeout(1200, TimeUnit.SECONDS).build();
+                .connectTimeout(1200, TimeUnit.SECONDS)
+                .addInterceptor(new AuthorizationInterceptor())
+                .build();
 
     }
 

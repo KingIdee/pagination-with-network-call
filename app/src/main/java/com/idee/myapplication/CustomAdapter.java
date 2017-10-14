@@ -1,10 +1,7 @@
 package com.idee.myapplication;
 
-import android.arch.paging.PagedList;
 import android.arch.paging.PagedListAdapter;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +40,7 @@ public class CustomAdapter extends PagedListAdapter<ApiResult, CustomAdapter.MyV
         void bindTo(ApiResult item) {
             //t.setText(result.getTitle());
 
-            t.setText("Hello World");
+            t.setText(item.getTitle());
         }
 
     }

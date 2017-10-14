@@ -2,7 +2,6 @@ package com.idee.myapplication;
 
 import android.arch.paging.DataSource;
 import android.arch.paging.TiledDataSource;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -12,10 +11,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by idee on 9/15/17.
@@ -33,7 +28,9 @@ public abstract class DataClass extends TiledDataSource<ApiResult> {
 
         List<ApiResult> webServiceResponse = null;
         try {
-            webServiceResponse = parseJson(NetworkModule.providesWebService().makeRequest().execute().body());
+            int pageNumber = startPosition/count + 1;
+            webServiceResponse = parseJson(NetworkModule.providesWebService()
+                    .makeRequest(String.valueOf(pageNumber)).execute().body());
             Log.d("TAG", String.valueOf(webServiceResponse.size()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,7 +56,7 @@ public abstract class DataClass extends TiledDataSource<ApiResult> {
                 JSONObject object = jsonArray.getJSONObject(i);
 
                 ApiResult mMovieModel = new ApiResult();
-                //mMovieModel.setId(object.getString("id"));
+                mMovieModel.setId(object.getInt("id"));
                 mMovieModel.setPosterPath(object.getString("poster_path"));
                 mMovieModel.setTitle(object.getString("original_title"));
                 mMovieModel.setBackdropPath(object.getString("backdrop_path"));
